@@ -16,7 +16,7 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repo;
 
-	public Cliente buscar(Integer id) {
+	public Cliente find(Integer id) {
 		Cliente obj = repo.findOne(id);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
@@ -25,11 +25,7 @@ public class ClienteService {
 		return obj;
 	}
 
-	public void excluir(Integer id) {
-		repo.delete(id);
-	}
-
-	public List<Cliente> buscarTodos() {
+	public List<Cliente> findAll() {
 		List<Cliente> obj = repo.findAll();
 		return obj;
 	}

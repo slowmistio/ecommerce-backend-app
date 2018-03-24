@@ -22,7 +22,7 @@ public class ClienteResource {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		
-		Cliente obj = service.buscar(id);
+		Cliente obj = service.find(id);
 		
 		return ResponseEntity.ok().body(obj) ;
 	}
@@ -30,30 +30,9 @@ public class ClienteResource {
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		
-		List<Cliente> obj = service.buscarTodos();
+		List<Cliente> obj = service.findAll();
 		
 		return ResponseEntity.ok().body(obj) ;
 	}
-
-
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<?> delete(@PathVariable Integer id) {
-		
-		service.excluir(id);
-		
-		return ResponseEntity.ok().body("");
-	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<?> update(@PathVariable Integer id) {
-		return ResponseEntity.ok().body("");
-	}
-	
-	@RequestMapping(value="/", method=RequestMethod.POST)
-	public ResponseEntity<?> insert() {
-		return ResponseEntity.ok().body("");
-	}
-	
-	
 	
 }
