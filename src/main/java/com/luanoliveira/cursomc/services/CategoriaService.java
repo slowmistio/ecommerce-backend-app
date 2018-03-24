@@ -19,6 +19,10 @@ public class CategoriaService {
 		return obj;
 	}
 
+	public void excluir(Integer id) {
+		repo.delete(id);
+	}
+
 	public List<Categoria> buscarTodos() {
 		List<Categoria> obj = repo.findAll();
 		return obj;

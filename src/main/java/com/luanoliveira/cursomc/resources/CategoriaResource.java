@@ -34,5 +34,26 @@ public class CategoriaResource {
 		
 		return ResponseEntity.ok().body(obj) ;
 	}
+
+
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable Integer id) {
+		
+		service.excluir(id);
+		
+		return ResponseEntity.ok().body("");
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<?> update(@PathVariable Integer id) {
+		return ResponseEntity.ok().body("");
+	}
+	
+	@RequestMapping(value="/", method=RequestMethod.POST)
+	public ResponseEntity<?> insert() {
+		return ResponseEntity.ok().body("");
+	}
+	
+	
 	
 }
