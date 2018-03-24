@@ -15,7 +15,7 @@ public class PedidoService {
 	@Autowired
 	private PedidoRepository repo;
 
-	public Pedido buscar(Integer id) {
+	public Pedido find(Integer id) {
 		Pedido obj = repo.findOne(id);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
@@ -24,13 +24,13 @@ public class PedidoService {
 		return obj;
 	}
 
-	public void excluir(Integer id) {
-		repo.delete(id);
-	}
-
-	public List<Pedido> buscarTodos() {
+	public List<Pedido> findAll() {
 		List<Pedido> obj = repo.findAll();
 		return obj;
+	}
+
+	public void delete(Integer id) {
+		repo.delete(id);
 	}
 	
 }

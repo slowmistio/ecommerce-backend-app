@@ -20,9 +20,9 @@ public class PedidoResource {
 	private PedidoService service;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 		
-		Pedido obj = service.buscar(id);
+		Pedido obj = service.find(id);
 		
 		return ResponseEntity.ok().body(obj) ;
 	}
@@ -30,15 +30,20 @@ public class PedidoResource {
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		
-		List<Pedido> obj = service.buscarTodos();
+		List<Pedido> obj = service.findAll();
 		
 		return ResponseEntity.ok().body(obj) ;
+	}
+	
+	@RequestMapping(value="/", method=RequestMethod.POST)
+	public ResponseEntity<?> insert() {
+		return ResponseEntity.ok().body("");
 	}
 
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<?> delete(@PathVariable Integer id) {
 		
-		service.excluir(id);
+		service.delete(id);
 		
 		return ResponseEntity.ok().body("");
 	}
@@ -48,10 +53,6 @@ public class PedidoResource {
 		return ResponseEntity.ok().body("");
 	}
 	
-	@RequestMapping(value="/", method=RequestMethod.POST)
-	public ResponseEntity<?> insert() {
-		return ResponseEntity.ok().body("");
-	}
 	
 	
 	
