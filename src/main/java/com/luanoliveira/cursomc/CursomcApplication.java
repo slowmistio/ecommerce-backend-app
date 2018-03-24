@@ -9,10 +9,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.luanoliveira.cursomc.domain.Categoria;
 import com.luanoliveira.cursomc.domain.Cidade;
+import com.luanoliveira.cursomc.domain.Cliente;
+import com.luanoliveira.cursomc.domain.Endereco;
 import com.luanoliveira.cursomc.domain.Estado;
 import com.luanoliveira.cursomc.domain.Produto;
+import com.luanoliveira.cursomc.domain.enuns.TipoCliente;
+import com.luanoliveira.cursomc.domain.enuns.TipoEndereco;
 import com.luanoliveira.cursomc.repositories.CategoriaRepository;
 import com.luanoliveira.cursomc.repositories.CidadeRepository;
+import com.luanoliveira.cursomc.repositories.ClienteRepository;
+import com.luanoliveira.cursomc.repositories.EnderecoRepository;
 import com.luanoliveira.cursomc.repositories.EstadoRepository;
 import com.luanoliveira.cursomc.repositories.ProdutoRepository;
 
@@ -27,6 +33,10 @@ public class CursomcApplication implements CommandLineRunner {
 	EstadoRepository estadoRepository;
 	@Autowired
 	CidadeRepository cidadeRepository;
+	@Autowired
+	ClienteRepository clienteRepository;
+	@Autowired
+	EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -65,6 +75,16 @@ public class CursomcApplication implements CommandLineRunner {
 		estadoRepository.save(Arrays.asList(est1,est2));
 		cidadeRepository.save(Arrays.asList(cid1,cid2,cid3,cid4,cid5));
 		
+		Cliente c1 = new Cliente(null, "Luan Oliveira", "luannn@gmail.com", "05049043964", TipoCliente.PESSOAFISICA);
+		c1.getTelefones().addAll(Arrays.asList("47996665106"));
+		
+		Endereco e1 = new Endereco(null, TipoEndereco.RESIDENCIAL, "Rua Herman Lange", "31", "ap2", "Costa e Silva", "89219260", cid2, c1);	
+		Endereco e2 = new Endereco(null, TipoEndereco.COMERCIAL, "Rua Otto Boehn", "442", "", "Atiradores", "89222111", cid2, c1);	
+		
+		c1.getEnderecos().addAll(Arrays.asList(e1, e2));
+
+		clienteRepository.save(Arrays.asList(c1));
+		enderecoRepository.save(Arrays.asList(e1,e2));
 		
 	}
 	
