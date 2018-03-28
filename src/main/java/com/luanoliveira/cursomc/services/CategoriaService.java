@@ -3,6 +3,7 @@ package com.luanoliveira.cursomc.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.luanoliveira.cursomc.domain.Categoria;
@@ -14,6 +15,11 @@ public class CategoriaService {
 	
 	@Autowired
 	private CategoriaRepository repo;
+
+	public List<Categoria> findAll() {
+		List<Categoria> obj = repo.findAll();
+		return obj;
+	}
 
 	public Categoria find(Integer id) {
 		Categoria obj = repo.findOne(id);
@@ -34,12 +40,13 @@ public class CategoriaService {
 	}
 
 	public void delete(Integer id) {
-		repo.delete(id);
-	}
-
-	public List<Categoria> findAll() {
-		List<Categoria> obj = repo.findAll();
-		return obj;
+		find(id);
+		try {
+			repo.delete(id);
+		} catch (DataIntegrityViolationException e) {
+			// TODO: handle exception
+		}
+		
 	}
 	
 }
