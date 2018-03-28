@@ -18,19 +18,19 @@ public class PedidoResource {
 	
 	@Autowired
 	private PedidoService service;
+
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<?> findAll() {
+		
+		List<Pedido> obj = service.findAll();
+		
+		return ResponseEntity.ok().body(obj) ;
+	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 		
 		Pedido obj = service.find(id);
-		
-		return ResponseEntity.ok().body(obj) ;
-	}
-
-	@RequestMapping(value="/",method=RequestMethod.GET)
-	public ResponseEntity<?> findAll() {
-		
-		List<Pedido> obj = service.findAll();
 		
 		return ResponseEntity.ok().body(obj) ;
 	}

@@ -18,7 +18,7 @@ public class ProdutoResource {
 	@Autowired
 	private ProdutoService service;
 	
-	@RequestMapping(value="/",method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		
 		List<Produto> obj = service.findAll();
