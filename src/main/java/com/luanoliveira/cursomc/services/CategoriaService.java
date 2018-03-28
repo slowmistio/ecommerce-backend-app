@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.luanoliveira.cursomc.domain.Categoria;
 import com.luanoliveira.cursomc.repositories.CategoriaRepository;
+import com.luanoliveira.cursomc.services.exceptions.DataIntegrityException;
 import com.luanoliveira.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -44,7 +45,7 @@ public class CategoriaService {
 		try {
 			repo.delete(id);
 		} catch (DataIntegrityViolationException e) {
-			// TODO: handle exception
+			throw new DataIntegrityException("Não é possível excluir a categoria pois produtos associados");
 		}
 		
 	}
