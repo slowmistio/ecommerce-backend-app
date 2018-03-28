@@ -22,9 +22,9 @@ public class ClienteResource {
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		
-		List<Cliente> obj = service.findAll();
+		List<Cliente> list = service.findAll();
 		
-		return ResponseEntity.ok().body(obj) ;
+		return ResponseEntity.ok().body(list) ;
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
