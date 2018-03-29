@@ -2,7 +2,6 @@ package com.luanoliveira.cursomc.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -43,15 +42,14 @@ public class ClienteResource {
 	}
 	
 	@RequestMapping(value="/pagination", method=RequestMethod.GET)
-	public ResponseEntity<Page<ClienteDTO>> findPage(
+	public ResponseEntity<Page<Cliente>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
 			@RequestParam(value="order", defaultValue="nome") String orderBy, 
 			@RequestParam(value="dir", defaultValue="ASC") String direction) {
 		
 		Page<Cliente> list = service.findPage(page, linesPerPage, orderBy, direction);
-		Page<ClienteDTO> listDTO = list.map(obj -> new ClienteDTO(obj));
-		return ResponseEntity.ok().body(listDTO) ;
+		return ResponseEntity.ok().body(list) ;
 	}	
 	
 	@RequestMapping(method=RequestMethod.POST)
