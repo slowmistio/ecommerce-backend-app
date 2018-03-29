@@ -36,6 +36,14 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(listDTO) ;
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
+		
+		Categoria obj = service.find(id);
+		
+		return ResponseEntity.ok().body(obj) ;
+	}
+	
 	@RequestMapping(value="/pagination", method=RequestMethod.GET)
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
@@ -47,14 +55,6 @@ public class CategoriaResource {
 		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
 		return ResponseEntity.ok().body(listDTO) ;
 	}	
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
-		
-		Categoria obj = service.find(id);
-		
-		return ResponseEntity.ok().body(obj) ;
-	}
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {

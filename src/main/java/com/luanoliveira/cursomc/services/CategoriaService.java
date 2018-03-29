@@ -35,6 +35,15 @@ public class CategoriaService {
 		return obj;
 	}
 	
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getNome());
+	}
+	
 	public Categoria insert(Categoria obj) {
 		return repo.save(obj);
 	}
@@ -52,14 +61,6 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possível excluir a categoria pois produtos associados");
 		}
 	}
-	
-	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
-		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
-	}
-	
-	public Categoria fromDTO(CategoriaDTO objDTO) {
-		return new Categoria(objDTO.getId(), objDTO.getNome());
-	}
+
 	
 }

@@ -2,28 +2,35 @@ package com.luanoliveira.cursomc.dto;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.luanoliveira.cursomc.domain.Categoria;
+import com.luanoliveira.cursomc.domain.Cliente;
 
-public class CategoriaDTO implements Serializable {
+public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer id;
 	
 	@NotEmpty(message="Preenchimento obrigatório")
-	@Length(min=5,max=80,message="O tamanho deve ser entre 5 e 80 caracteres")
+	@Length(min=5, max=120, message="O tamanho deve ser entre 5 a 120 caracteres")
 	private String nome;
 	
-	public CategoriaDTO() {
+	@NotEmpty(message="Preenchimento obrigatório")
+	@Email(message="Email inválido")
+	private String email;
+	
+	public ClienteDTO() {
 		
 	}
 
-	public CategoriaDTO(Categoria obj) {
+	public ClienteDTO(Cliente obj) {
 		id = obj.getId();
 		nome = obj.getNome();
+		email = obj.getEmail();
 	}
+
 	
 	public Integer getId() {
 		return id;
@@ -40,5 +47,15 @@ public class CategoriaDTO implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
 	
 }
