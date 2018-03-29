@@ -1,0 +1,27 @@
+[33m24f0d66[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m Ajuste dp Update da Categoria
+[33m5d5825e[m Ajuste do metodo pagination da Classe ClienteService
+[33mdd3b2a8[m Adicionado os endpoits para o Cliente - PUT, GET e DELETE
+[33m7e23012[m Personalizando o retorno da Validacao
+[33mba6552c[m Adicionada validação sintática com BeanValidation
+[33m6d59ea9[m Paginação com opcionais na requisição do endPoint de Categoria
+[33mb353a40[m Listando as categorias com DTO - data transfer object
+[33m1fead36[m Adicionado o tratamento de erro na exclusão de categoria
+[33mbae05c8[m Organizando a classe Categoria
+[33m0fc3d7a[m Adicionado o endpoint /produtos
+[33m3138378[m Atualizando a categoria com o PUT e mais outros ajustes.
+[33m7716b4e[m Adicionar o método POST a Categoria
+[33mb203454[m Utilizacao apenas o JsonIgnore
+[33m9db907a[m Adicionado o endpoint Pedido disponibilizado
+[33m0b89728[m ItemPedido e ItemPedidoPK
+[33mb77aa74[m Pedido, Pagamento e EstadoPagamento
+[33me8c9428[m Adicionado o endpoint Clientes
+[33mebe47a2[m Adicionado repositorios de cliente e endereço
+[33mfa155cd[m Adicionado repositório cidade e estado
+[33m869afa7[m Adicionado os dominíos Estado e Cidade
+[33m5f23dd4[m Ajustes no endpoint /categorias/{id}
+[33ma085ce4[m Adicionado relacionamento muitos para muitos
+[33ma48a56b[m Criando Operação de Instaciação
+[33mc695bbd[m Adicionada o banco de dados h2 e criação automática de base de dados
+[33m66b8ac5[m Adicionada primeira classe de domínio Categoria
+[33m197499d[m REST Testado
+[33mcbce3dc[m Projeto criado
