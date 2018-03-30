@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.luanoliveira.cursomc.domain.Categoria;
+import com.luanoliveira.cursomc.domain.Category;
 import com.luanoliveira.cursomc.dto.CategoriaDTO;
 import com.luanoliveira.cursomc.repositories.CategoriaRepository;
 import com.luanoliveira.cursomc.services.exceptions.DataIntegrityException;
@@ -21,36 +21,36 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo;
 
-	public List<Categoria> findAll() {
-		List<Categoria> obj = repo.findAll();
+	public List<Category> findAll() {
+		List<Category> obj = repo.findAll();
 		return obj;
 	}
 
-	public Categoria find(Integer id) {
-		Categoria obj = repo.findOne(id);
+	public Category find(Integer id) {
+		Category obj = repo.findOne(id);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
-					+ ", Tipo: " + Categoria.class.getName());
+					+ ", Tipo: " + Category.class.getName());
 		}
 		return obj;
 	}
 	
-	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+	public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
 	
-	public Categoria fromDTO(CategoriaDTO objDTO) {
-		return new Categoria(objDTO.getId(), objDTO.getNome());
+	public Category fromDTO(CategoriaDTO objDTO) {
+		return new Category(objDTO.getId(), objDTO.getNome());
 	}
 	
-	public Categoria insert(Categoria obj) {
+	public Category insert(Category obj) {
 		obj.setId(null);
 		return repo.save(obj);
 	}
 	
-	public Categoria update(Categoria obj) {
-		Categoria newObj = find(obj.getId());
+	public Category update(Category obj) {
+		Category newObj = find(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
@@ -64,7 +64,7 @@ public class CategoriaService {
 		}
 	}
 	
-	private void updateData(Categoria newObj, Categoria obj) {
+	private void updateData(Category newObj, Category obj) {
 		newObj.setNome(obj.getNome());
 	}
 

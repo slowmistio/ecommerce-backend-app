@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.luanoliveira.cursomc.domain.Cliente;
+import com.luanoliveira.cursomc.domain.Client;
 
 public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,7 +25,7 @@ public class ClienteDTO implements Serializable {
 		
 	}
 
-	public ClienteDTO(Cliente obj) {
+	public ClienteDTO(Client obj) {
 		id = obj.getId();
 		nome = obj.getNome();
 		email = obj.getEmail();

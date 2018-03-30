@@ -12,7 +12,7 @@ import com.luanoliveira.cursomc.domain.Produto;
 import com.luanoliveira.cursomc.services.ProdutoService;
 
 @RestController
-@RequestMapping(value="/produtos")
+@RequestMapping(value="/api/produtos")
 public class ProdutoResource {
 	
 	@Autowired

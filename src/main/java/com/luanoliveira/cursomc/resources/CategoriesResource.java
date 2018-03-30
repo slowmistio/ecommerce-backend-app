@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,29 +18,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.luanoliveira.cursomc.domain.Categoria;
+import com.luanoliveira.cursomc.domain.Category;
 import com.luanoliveira.cursomc.dto.CategoriaDTO;
 import com.luanoliveira.cursomc.services.CategoriaService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
-@RequestMapping(value="/categorias")
-public class CategoriaResource {
+@RequestMapping(value="/api/categories")
+@Api(value = "Categories Resource REST Endpoint", 
+		produces = MediaType.APPLICATION_JSON_VALUE,
+		description = "Show the category info")
+public class CategoriesResource {
 	
 	@Autowired
 	private CategoriaService service;
 
 	@RequestMapping(method=RequestMethod.GET)
+	@ApiOperation("Get All Categories")
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		
-		List<Categoria> list = service.findAll();
+		List<Category> list = service.findAll();
 		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO) ;
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
+	@ApiOperation("Get Category for ID")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Category.class)})
+	public ResponseEntity<Category> find(@PathVariable Integer id) {
 		
-		Categoria obj = service.find(id);
+		Category obj = service.find(id);
 		
 		return ResponseEntity.ok().body(obj) ;
 	}
@@ -51,14 +63,14 @@ public class CategoriaResource {
 			@RequestParam(value="order", defaultValue="nome") String orderBy, 
 			@RequestParam(value="dir", defaultValue="ASC") String direction) {
 		
-		Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction);
+		Page<Category> list = service.findPage(page, linesPerPage, orderBy, direction);
 		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
 		return ResponseEntity.ok().body(listDTO) ;
 	}	
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
-		Categoria obj = service.fromDTO(objDTO);
+		Category obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -67,7 +79,7 @@ public class CategoriaResource {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id) {
-		Categoria obj = service.fromDTO(objDTO);
+		Category obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();

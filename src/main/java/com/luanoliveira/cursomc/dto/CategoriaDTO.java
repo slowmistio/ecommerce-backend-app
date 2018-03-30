@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.luanoliveira.cursomc.domain.Categoria;
+import com.luanoliveira.cursomc.domain.Category;
 
 public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,7 +20,7 @@ public class CategoriaDTO implements Serializable {
 		
 	}
 
-	public CategoriaDTO(Categoria obj) {
+	public CategoriaDTO(Category obj) {
 		id = obj.getId();
 		nome = obj.getNome();
 	}

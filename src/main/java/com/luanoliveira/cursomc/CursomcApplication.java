@@ -8,9 +8,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.luanoliveira.cursomc.domain.Categoria;
+import com.luanoliveira.cursomc.domain.Category;
 import com.luanoliveira.cursomc.domain.Cidade;
-import com.luanoliveira.cursomc.domain.Cliente;
+import com.luanoliveira.cursomc.domain.Client;
 import com.luanoliveira.cursomc.domain.Endereco;
 import com.luanoliveira.cursomc.domain.Estado;
 import com.luanoliveira.cursomc.domain.ItemPedido;
@@ -69,13 +69,13 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Categoria cat1 = new Categoria(null, "Informática");
-		Categoria cat2 = new Categoria(null, "Escritório");
-		Categoria cat3 = new Categoria(null, "Cama mesa e banho");
-		Categoria cat4 = new Categoria(null, "Eletrônicos");
-		Categoria cat5 = new Categoria(null, "Jardinagem");
-		Categoria cat6 = new Categoria(null, "Decoração");
-		Categoria cat7 = new Categoria(null, "Perfumaria");
+		Category cat1 = new Category(null, "Informática");
+		Category cat2 = new Category(null, "Escritório");
+		Category cat3 = new Category(null, "Cama mesa e banho");
+		Category cat4 = new Category(null, "Eletrônicos");
+		Category cat5 = new Category(null, "Jardinagem");
+		Category cat6 = new Category(null, "Decoração");
+		Category cat7 = new Category(null, "Perfumaria");
 		
 		Produto prod1 = new Produto(null, "Computador", 2000.00);
 		Produto prod2 = new Produto(null, "Impressora", 400.00);
@@ -105,7 +105,7 @@ public class CursomcApplication implements CommandLineRunner {
 		estadoRepository.save(Arrays.asList(est1,est2));
 		cidadeRepository.save(Arrays.asList(cid1,cid2,cid3,cid4,cid5));
 		
-		Cliente c1 = new Cliente(null, "Luan Oliveira", "luannn@gmail.com", "05049043964", TipoCliente.PESSOAFISICA);
+		Client c1 = new Client(null, "Luan Oliveira", "luannn@gmail.com", "05049043964", TipoCliente.PESSOAFISICA);
 		c1.getTelefones().addAll(Arrays.asList("47996665106"));
 		
 		Endereco e1 = new Endereco(null, TipoEndereco.RESIDENCIAL, "Rua Herman Lange", "31", "ap2", "Costa e Silva", "89219260", cid2, c1);	

@@ -10,9 +10,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.luanoliveira.cursomc.domain.Categoria;
+import com.luanoliveira.cursomc.domain.Category;
 import com.luanoliveira.cursomc.domain.Cidade;
-import com.luanoliveira.cursomc.domain.Cliente;
+import com.luanoliveira.cursomc.domain.Client;
 import com.luanoliveira.cursomc.domain.Endereco;
 import com.luanoliveira.cursomc.domain.enuns.TipoCliente;
 import com.luanoliveira.cursomc.domain.enuns.TipoEndereco;
@@ -32,31 +32,31 @@ public class ClienteService {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
-	public Cliente find(Integer id) {
-		Cliente obj = repo.findOne(id);
+	public Client find(Integer id) {
+		Client obj = repo.findOne(id);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
-					+ ", Tipo: " + Categoria.class.getName());
+					+ ", Tipo: " + Category.class.getName());
 		}
 		return obj;
 	}
 
-	public List<Cliente> findAll() {
-		List<Cliente> obj = repo.findAll();
+	public List<Client> findAll() {
+		List<Client> obj = repo.findAll();
 		return obj;
 	}
 	
-	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+	public Page<Client> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
 	
-	public Cliente fromDTO(ClienteDTO objDTO) {
-		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null);
+	public Client fromDTO(ClienteDTO objDTO) {
+		return new Client(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null);
 	}	
 	
-	public Cliente fromDTO(ClienteNewDTO objDTO) {
-		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), TipoCliente.toEnum(objDTO.getTipo()));
+	public Client fromDTO(ClienteNewDTO objDTO) {
+		Client cli = new Client(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), TipoCliente.toEnum(objDTO.getTipo()));
 		Cidade cid = new Cidade(objDTO.getCidadeId(), null, null);
 		Endereco end = new Endereco(null, TipoEndereco.toEnum(objDTO.getTipoEndereco()), objDTO.getLogradouro(), objDTO.getNumero(), objDTO.getComplemento(), objDTO.getBairro(), objDTO.getCep(), cid, cli);
 		cli.getEnderecos().add(end);
@@ -67,15 +67,15 @@ public class ClienteService {
 	}
 
 	@Transactional
-	public Cliente insert(Cliente obj) {
+	public Client insert(Client obj) {
 		obj.setId(null);
 		obj = repo.save(obj);
 		enderecoRepository.save(obj.getEnderecos());	
 		return obj;
 	}
 
-	public Cliente update(Cliente obj) {
-		Cliente newObj = find(obj.getId());
+	public Client update(Client obj) {
+		Client newObj = find(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
@@ -89,7 +89,7 @@ public class ClienteService {
 		}
 	}	
 	
-	private void updateData(Cliente newObj, Cliente obj) {
+	private void updateData(Client newObj, Client obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
 	}

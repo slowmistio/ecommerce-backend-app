@@ -13,7 +13,7 @@ import com.luanoliveira.cursomc.domain.Pedido;
 import com.luanoliveira.cursomc.services.PedidoService;
 
 @RestController
-@RequestMapping(value="/pedidos")
+@RequestMapping(value="/api/pedidos")
 public class PedidoResource {
 	
 	@Autowired
