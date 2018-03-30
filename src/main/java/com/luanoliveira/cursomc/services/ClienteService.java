@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.luanoliveira.cursomc.domain.Categoria;
 import com.luanoliveira.cursomc.domain.Cidade;
@@ -17,7 +18,6 @@ import com.luanoliveira.cursomc.domain.enuns.TipoCliente;
 import com.luanoliveira.cursomc.domain.enuns.TipoEndereco;
 import com.luanoliveira.cursomc.dto.ClienteDTO;
 import com.luanoliveira.cursomc.dto.ClienteNewDTO;
-import com.luanoliveira.cursomc.repositories.CidadeRepository;
 import com.luanoliveira.cursomc.repositories.ClienteRepository;
 import com.luanoliveira.cursomc.repositories.EnderecoRepository;
 import com.luanoliveira.cursomc.services.exceptions.DataIntegrityException;
@@ -28,9 +28,6 @@ public class ClienteService {
 	
 	@Autowired
 	private ClienteRepository repo;
-
-	@Autowired
-	private CidadeRepository cidadeRepository;
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
@@ -60,7 +57,7 @@ public class ClienteService {
 	
 	public Cliente fromDTO(ClienteNewDTO objDTO) {
 		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), TipoCliente.toEnum(objDTO.getTipo()));
-		Cidade cid = cidadeRepository.findOne(objDTO.getCidadeId());
+		Cidade cid = new Cidade(objDTO.getCidadeId(), null, null);
 		Endereco end = new Endereco(null, TipoEndereco.toEnum(objDTO.getTipoEndereco()), objDTO.getLogradouro(), objDTO.getNumero(), objDTO.getComplemento(), objDTO.getBairro(), objDTO.getCep(), cid, cli);
 		cli.getEnderecos().add(end);
 		cli.getTelefones().add(objDTO.getTelefone1());
@@ -69,6 +66,7 @@ public class ClienteService {
 		return cli;
 	}
 
+	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
 		obj = repo.save(obj);
@@ -87,7 +85,7 @@ public class ClienteService {
 		try {
 			repo.delete(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possível excluir o cliente pois há entidades associadas");
+			throw new DataIntegrityException("Não é possível excluir o cliente pois há pedidos relacionados");
 		}
 	}	
 	
