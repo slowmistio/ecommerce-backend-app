@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value="/api/clients")
-@Api(value = "Clients Resource REST Endpoint", 
+@Api(value = "Clients Resource REST Endpoint.", 
 	produces = MediaType.APPLICATION_JSON_VALUE,
 	description = "Show the client info.")
 public class ClientResource {
