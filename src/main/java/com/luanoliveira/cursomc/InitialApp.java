@@ -78,19 +78,40 @@ public class InitialApp implements CommandLineRunner {
 		Category cat6 = new Category(null, "Decoração");
 		Category cat7 = new Category(null, "Perfumaria");
 		
-		Product prod1 = new Product(null, "Computador", 2000.00);
-		Product prod2 = new Product(null, "Impressora", 400.00);
-		Product prod3 = new Product(null, "Mouse", 80.00);
+		Product p1 = new Product(null, "Computador", 2000.00);
+		Product p2 = new Product(null, "Impressora", 400.00);
+		Product p3 = new Product(null, "Mouse", 80.00);
+		Product p4 = new Product(null, "Mesa de escritório", 300.00);
+		Product p5 = new Product(null, "Toalha", 50.00);
+		Product p6 = new Product(null, "Colcha", 200.00);
+		Product p7 = new Product(null, "TV Smart", 1200.00);
+		Product p8 = new Product(null, "Roçadeira", 800.00);
+		Product p9 = new Product(null, "Abajour", 100.00);
+		Product p10 = new Product(null, "Pendente", 180.00);
+		Product p11 = new Product(null, "Shampoo", 90.00);
 		
-		cat1.getProducts().addAll(Arrays.asList(prod1, prod2, prod3));
-		cat2.getProducts().addAll(Arrays.asList(prod2));
+		cat1.getProducts().addAll(Arrays.asList(p1, p2, p3));
+		cat2.getProducts().addAll(Arrays.asList(p2, p4));
+		cat3.getProducts().addAll(Arrays.asList(p5, p6));
+		cat4.getProducts().addAll(Arrays.asList(p1, p2, p3, p7));
+		cat5.getProducts().addAll(Arrays.asList(p8));
+		cat6.getProducts().addAll(Arrays.asList(p9, p10));
+		cat7.getProducts().addAll(Arrays.asList(p11));
 		
-		prod1.getCategories().addAll(Arrays.asList(cat1));
-		prod2.getCategories().addAll(Arrays.asList(cat1, cat2));
-		prod3.getCategories().addAll(Arrays.asList(cat1));
+		p1.getCategories().addAll(Arrays.asList(cat1, cat4));
+		p2.getCategories().addAll(Arrays.asList(cat1, cat2, cat4));
+		p3.getCategories().addAll(Arrays.asList(cat1, cat4));
+		p4.getCategories().addAll(Arrays.asList(cat2));
+		p5.getCategories().addAll(Arrays.asList(cat3));
+		p6.getCategories().addAll(Arrays.asList(cat3));
+		p7.getCategories().addAll(Arrays.asList(cat4));
+		p8.getCategories().addAll(Arrays.asList(cat5));
+		p9.getCategories().addAll(Arrays.asList(cat6));
+		p10.getCategories().addAll(Arrays.asList(cat6));
+		p11.getCategories().addAll(Arrays.asList(cat7));
 		
 		categoryRepository.save(Arrays.asList(cat1,cat2,cat3,cat4,cat5,cat6,cat7));
-		productRepository.save(Arrays.asList(prod1,prod2,prod3));
+		productRepository.save(Arrays.asList(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11));
 		
 		State est1 = new State(null, "Santa Catarina");
 		City cid1 = new City(null, "Florianópolis", est1);
@@ -133,16 +154,16 @@ public class InitialApp implements CommandLineRunner {
 		orderRepository.save(Arrays.asList(ped1,ped2));
 		paymentRepository.save(Arrays.asList(pagto1,pagto2));		
 		
-		ItemOrder ip1 = new ItemOrder(ped1, prod1, 0.00, 1, 2000.00);
-		ItemOrder ip2 = new ItemOrder(ped1, prod3, 0.00, 3, 80.00);
-		ItemOrder ip3 = new ItemOrder(ped2, prod2, 100.00, 1, 800.00);
+		ItemOrder ip1 = new ItemOrder(ped1, p1, 0.00, 1, 2000.00);
+		ItemOrder ip2 = new ItemOrder(ped1, p3, 0.00, 3, 80.00);
+		ItemOrder ip3 = new ItemOrder(ped2, p2, 100.00, 1, 800.00);
 		
 		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
 		ped1.getItens().addAll(Arrays.asList(ip3));
 		
-		prod1.getItens().addAll(Arrays.asList(ip1));
-		prod2.getItens().addAll(Arrays.asList(ip2));
-		prod3.getItens().addAll(Arrays.asList(ip3));
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		p2.getItens().addAll(Arrays.asList(ip3));
 		
 		itemOrderRepository.save(Arrays.asList(ip1,ip2,ip3));
 		

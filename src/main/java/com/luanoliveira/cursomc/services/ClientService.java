@@ -10,16 +10,15 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.luanoliveira.cursomc.domain.Category;
+import com.luanoliveira.cursomc.domain.Address;
 import com.luanoliveira.cursomc.domain.City;
 import com.luanoliveira.cursomc.domain.Client;
-import com.luanoliveira.cursomc.domain.Address;
-import com.luanoliveira.cursomc.domain.enuns.TypeClient;
 import com.luanoliveira.cursomc.domain.enuns.TypeAddress;
+import com.luanoliveira.cursomc.domain.enuns.TypeClient;
 import com.luanoliveira.cursomc.dto.ClientDTO;
 import com.luanoliveira.cursomc.dto.ClientNewDTO;
-import com.luanoliveira.cursomc.repositories.ClientRepository;
 import com.luanoliveira.cursomc.repositories.AddressRepository;
+import com.luanoliveira.cursomc.repositories.ClientRepository;
 import com.luanoliveira.cursomc.services.exceptions.DataIntegrityException;
 import com.luanoliveira.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -36,7 +35,7 @@ public class ClientService {
 		Client obj = repo.findOne(clientId);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + clientId
-					+ ", Tipo: " + Category.class.getName());
+					+ ", Tipo: " + Client.class.getName());
 		}
 		return obj;
 	}
