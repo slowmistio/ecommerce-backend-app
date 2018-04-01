@@ -16,7 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.luanoliveira.cursomc.domain.enuns.TipoCliente;
+import com.luanoliveira.cursomc.domain.enuns.TypeClient;
 
 @Entity
 public class Client implements Serializable {
@@ -25,33 +25,33 @@ public class Client implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String nome;
+	private String name;
 	private String email;
-	private String cpfOuCnpj;
-	private Integer tipo;
+	private String cpfOrCnpj;
+	private Integer type;
 	
-	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
-	private List<Endereco> enderecos = new ArrayList<>();
+	@OneToMany(mappedBy="client", cascade=CascadeType.ALL)
+	private List<Address> addresses = new ArrayList<>();
 	
 	@ElementCollection
-	@CollectionTable(name="TELEFONE")
-	private Set<String>	telefones = new HashSet<>();
+	@CollectionTable(name="PHONE")
+	private Set<String>	phones = new HashSet<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="cliente")
-	private List<Pedido> pedidos = new ArrayList<>();
+	@OneToMany(mappedBy="client")
+	private List<Order> orders = new ArrayList<>();
 	
 	public Client() {
 		
 	}
 
-	public Client(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+	public Client(Integer id, String name, String email, String cpfOrCnpj, TypeClient typeClient) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 		this.email = email;
-		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = (tipo==null) ? null : tipo.getCod();
+		this.cpfOrCnpj = cpfOrCnpj;
+		this.type = (typeClient==null) ? null : typeClient.getCod();
 	}
 
 	public Integer getId() {
@@ -62,12 +62,12 @@ public class Client implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
@@ -78,44 +78,44 @@ public class Client implements Serializable {
 		this.email = email;
 	}
 
-	public String getCpfOuCnpj() {
-		return cpfOuCnpj;
+	public String getCpfOrCnpj() {
+		return cpfOrCnpj;
 	}
 
-	public void setCpfOuCnpj(String cpfOuCnpj) {
-		this.cpfOuCnpj = cpfOuCnpj;
+	public void setCpfOrCnpj(String cpfOrCnpj) {
+		this.cpfOrCnpj = cpfOrCnpj;
 	}
 
-	public TipoCliente getTipo() {
-		return TipoCliente.toEnum(tipo);
+	public TypeClient getType() {
+		return TypeClient.toEnum(type);
 	}
 
-	public void setTipo(TipoCliente tipo) {
-		this.tipo = tipo.getCod();
+	public void setType(TypeClient typeClient) {
+		this.type = typeClient.getCod();
 	}
 
-	public List<Endereco> getEnderecos() {
-		return enderecos;
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
-	public Set<String> getTelefones() {
-		return telefones;
+	public Set<String> getPhones() {
+		return phones;
 	}
 
-	public void setTelefones(Set<String> telefones) {
-		this.telefones = telefones;
+	public void setPhones(Set<String> phones) {
+		this.phones = phones;
 	}
 
-	public List<Pedido> getPedidos() {
-		return pedidos;
+	public List<Order> getOrders() {
+		return orders;
 	}
 
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override

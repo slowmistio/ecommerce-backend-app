@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.luanoliveira.cursomc.domain.Category;
-import com.luanoliveira.cursomc.dto.CategoriaDTO;
-import com.luanoliveira.cursomc.services.CategoriaService;
+import com.luanoliveira.cursomc.dto.CategoryDTO;
+import com.luanoliveira.cursomc.services.CategoryService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,14 +35,14 @@ import io.swagger.annotations.ApiResponses;
 public class CategoriesResource {
 	
 	@Autowired
-	private CategoriaService service;
+	private CategoryService service;
 
 	@RequestMapping(method=RequestMethod.GET)
 	@ApiOperation("Get All Categories")
-	public ResponseEntity<List<CategoriaDTO>> findAll() {
+	public ResponseEntity<List<CategoryDTO>> findAll() {
 		
 		List<Category> list = service.findAll();
-		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		List<CategoryDTO> listDTO = list.stream().map(obj -> new CategoryDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO) ;
 	}
 	
@@ -57,19 +57,19 @@ public class CategoriesResource {
 	}
 	
 	@RequestMapping(value="/pagination", method=RequestMethod.GET)
-	public ResponseEntity<Page<CategoriaDTO>> findPage(
+	public ResponseEntity<Page<CategoryDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="order", defaultValue="nome") String orderBy, 
+			@RequestParam(value="order", defaultValue="name") String orderBy, 
 			@RequestParam(value="dir", defaultValue="ASC") String direction) {
 		
 		Page<Category> list = service.findPage(page, linesPerPage, orderBy, direction);
-		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
+		Page<CategoryDTO> listDTO = list.map(obj -> new CategoryDTO(obj));
 		return ResponseEntity.ok().body(listDTO) ;
 	}	
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO objDTO) {
 		Category obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -78,7 +78,7 @@ public class CategoriesResource {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO objDTO, @PathVariable Integer id) {
 		Category obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		obj = service.update(obj);
