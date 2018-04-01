@@ -106,21 +106,21 @@ public class InitialApp implements CommandLineRunner {
 		stateRepository.save(Arrays.asList(est1,est2));
 		cityRepository.save(Arrays.asList(cid1,cid2,cid3,cid4,cid5));
 		
-		Client c1 = new Client(null, "Luan Oliveira", "luannn@gmail.com", "05049043964", TypeClient.PESSOAFISICA);
-		c1.getPhones().addAll(Arrays.asList("47996665106"));
+		Client cli1 = new Client(null, "Luan Oliveira", "luannn@gmail.com", "05049043964", TypeClient.PESSOAFISICA);
+		cli1.getPhones().addAll(Arrays.asList("47996665106"));
 		
-		Address e1 = new Address(null, TypeAddress.RESIDENCIAL, "Rua Herman Lange", "31", "ap2", "Costa e Silva", "89219260", cid2, c1);	
-		Address e2 = new Address(null, TypeAddress.COMERCIAL, "Rua Otto Boehn", "442", "", "Atiradores", "89222111", cid2, c1);	
+		Address e1 = new Address(null, TypeAddress.RESIDENCIAL, "Rua Herman Lange", "31", "ap2", "Costa e Silva", "89219260", cid2, cli1);	
+		Address e2 = new Address(null, TypeAddress.COMERCIAL, "Rua Otto Boehn", "442", "", "Atiradores", "89222111", cid2, cli1);	
 		
-		c1.getAddresses().addAll(Arrays.asList(e1, e2));
+		cli1.getAddresses().addAll(Arrays.asList(e1, e2));
 
-		clientRepository.save(Arrays.asList(c1));
+		clientRepository.save(Arrays.asList(cli1));
 		addressRepository.save(Arrays.asList(e1,e2));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 		
-		Order ped1 = new Order(null, sdf.parse("30/09/2017 10:32"), c1, e1);
-		Order ped2 = new Order(null, sdf.parse("10/10/2017 10:32"), c1, e2);
+		Order ped1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Order ped2 = new Order(null, sdf.parse("10/10/2017 10:32"), cli1, e2);
 		
 		Payment pagto1 = new PaymentCard(null, StatusPayment.QUITADO, ped1, 6);
 		ped1.setPayment(pagto1);
@@ -128,7 +128,7 @@ public class InitialApp implements CommandLineRunner {
 		Payment pagto2 = new PaymentTicket(null, StatusPayment.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 		ped2.setPayment(pagto2);
 		
-		c1.getOrders().addAll(Arrays.asList(ped1,ped2));
+		cli1.getOrders().addAll(Arrays.asList(ped1,ped2));
 		
 		orderRepository.save(Arrays.asList(ped1,ped2));
 		paymentRepository.save(Arrays.asList(pagto1,pagto2));		

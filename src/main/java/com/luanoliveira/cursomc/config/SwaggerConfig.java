@@ -62,6 +62,7 @@ public class SwaggerConfig {
 				.apis(RequestHandlerSelectors.basePackage("com.luanoliveira.cursomc.resources"))
 				.paths(PathSelectors.regex("/api/clients.*"))
 				.build()
+				.securitySchemes(Arrays.asList(securityScheme()))
 				.apiInfo(apiInfo());
 	}
 
