@@ -26,10 +26,10 @@ public class CategoryService {
 		return obj;
 	}
 
-	public Category find(Integer id) {
-		Category obj = repo.findOne(id);
+	public Category findById(Integer categoryId) {
+		Category obj = repo.findOne(categoryId);
 		if(obj == null) {
-			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
+			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + categoryId
 					+ ", Tipo: " + Category.class.getName());
 		}
 		return obj;
@@ -50,15 +50,15 @@ public class CategoryService {
 	}
 	
 	public Category update(Category obj) {
-		Category newObj = find(obj.getId());
+		Category newObj = findById(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
 
-	public void delete(Integer id) {
-		find(id);
+	public void delete(Integer categoryId) {
+		findById(categoryId);
 		try {
-			repo.delete(id);
+			repo.delete(categoryId);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir a categoria pois produtos associados");
 		}

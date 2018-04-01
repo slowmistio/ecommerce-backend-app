@@ -32,10 +32,10 @@ public class ClientService {
 	@Autowired
 	private AddressRepository addressRepository;
 	
-	public Client find(Integer id) {
-		Client obj = repo.findOne(id);
+	public Client findById(Integer clientId) {
+		Client obj = repo.findOne(clientId);
 		if(obj == null) {
-			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
+			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + clientId
 					+ ", Tipo: " + Category.class.getName());
 		}
 		return obj;
@@ -75,15 +75,15 @@ public class ClientService {
 	}
 
 	public Client update(Client obj) {
-		Client newObj = find(obj.getId());
+		Client newObj = findById(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
 
-	public void delete(Integer id) {
-		find(id);
+	public void delete(Integer clientId) {
+		findById(clientId);
 		try {
-			repo.delete(id);
+			repo.delete(clientId);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir o cliente pois há pedidos relacionados");
 		}

@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.luanoliveira.cursomc.domain.Client;
 import com.luanoliveira.cursomc.dto.ClientDTO;
 import com.luanoliveira.cursomc.dto.ClientNewDTO;
-import com.luanoliveira.cursomc.resources.exceptions.ValidaionError;
 import com.luanoliveira.cursomc.services.ClientService;
 
 import io.swagger.annotations.Api;
@@ -28,17 +26,15 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+@Api(value = "client")
 @RestController
 @RequestMapping(value="/api/clients")
-@Api(value = "Clients Resource REST Endpoint.", 
-	produces = MediaType.APPLICATION_JSON_VALUE,
-	description = "Show the client info.")
 public class ClientResource {
 	
 	@Autowired
 	private ClientService service;
 
-	@ApiOperation("Get All Clients")
+	@ApiOperation("Find all clients")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		
@@ -46,16 +42,16 @@ public class ClientResource {
 		return ResponseEntity.ok().body(list) ;
 	}
 
-	@ApiOperation("Get Client for ID ")
+	@ApiOperation("Find client by ID")
 	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Client.class)})
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Client> find(@PathVariable Integer id) {
+	@RequestMapping(value="/{clientId}", method = RequestMethod.GET)
+	public ResponseEntity<Client> findById(@PathVariable Integer clientId) {
 		
-		Client obj = service.find(id);
+		Client obj = service.findById(clientId);
 		return ResponseEntity.ok().body(obj) ;
 	}
 	
-	@ApiOperation("Get Clients for Pagination ")
+	@ApiOperation("Find clients by pagination")
 	@RequestMapping(value="/pagination", method=RequestMethod.GET)
 	public ResponseEntity<Page<Client>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
@@ -67,39 +63,32 @@ public class ClientResource {
 		return ResponseEntity.ok().body(list) ;
 	}	
 	
-	@ApiOperation("Insert a Client")
-	@ApiResponses(
-			value = {
-					@ApiResponse(code = 201, message = "Created"),
-					@ApiResponse(code = 400, message = "Invalidation", response = ValidaionError.class)
-				})
+	@ApiOperation("Create a new client")
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClientNewDTO objDTO) {
-		Client obj = service.fromDTO(objDTO);
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClientNewDTO client) {
+		
+		Client obj = service.fromDTO(client);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+				.path("/{clientId}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@ApiOperation("Update data a Client")
-	@ApiResponses(
-			value = {
-					@ApiResponse(code = 204, message = "Updated"),
-					@ApiResponse(code = 400, message = "Invalidation", response = ValidaionError.class)
-				})
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody ClientDTO client, @PathVariable Integer id) {
+	@ApiOperation("Update an existing client")
+	@RequestMapping(value="/{clientId}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@Valid @RequestBody ClientDTO client, @PathVariable Integer clientId) {
+		
 		Client obj = service.fromDTO(client);
-		obj.setId(id);
+		obj.setId(clientId);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@ApiOperation("Delete a Client")
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable Integer id) {
-		service.delete(id);
+	@ApiOperation("Delete client by ID")
+	@RequestMapping(value="/{clientId}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer clientId) {
+		
+		service.delete(clientId);
 		return ResponseEntity.noContent().build();
 	}
 	

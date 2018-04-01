@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,21 +23,17 @@ import com.luanoliveira.cursomc.services.CategoryService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
+@Api(value = "categories")
 @RestController
 @RequestMapping(value="/api/categories")
-@Api(value = "Categories Resource REST Endpoint", 
-		produces = MediaType.APPLICATION_JSON_VALUE,
-		description = "Show the category info")
 public class CategoriesResource {
 	
 	@Autowired
 	private CategoryService service;
 
+	@ApiOperation("Find all categories")
 	@RequestMapping(method=RequestMethod.GET)
-	@ApiOperation("Get All Categories")
 	public ResponseEntity<List<CategoryDTO>> findAll() {
 		
 		List<Category> list = service.findAll();
@@ -46,16 +41,15 @@ public class CategoriesResource {
 		return ResponseEntity.ok().body(listDTO) ;
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	@ApiOperation("Get Category for ID")
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Category.class)})
-	public ResponseEntity<Category> find(@PathVariable Integer id) {
+	@ApiOperation("Find category by ID ")
+	@RequestMapping(value="/{categoryId}", method=RequestMethod.GET)
+	public ResponseEntity<Category> find(@PathVariable Integer categoryId) {
 		
-		Category obj = service.find(id);
-		
+		Category obj = service.findById(categoryId);
 		return ResponseEntity.ok().body(obj) ;
 	}
 	
+	@ApiOperation("Find categories by pagination")
 	@RequestMapping(value="/pagination", method=RequestMethod.GET)
 	public ResponseEntity<Page<CategoryDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
@@ -68,26 +62,31 @@ public class CategoriesResource {
 		return ResponseEntity.ok().body(listDTO) ;
 	}	
 	
+	@ApiOperation("Create a new category")
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO objDTO) {
-		Category obj = service.fromDTO(objDTO);
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO category) {
+		
+		Category obj = service.fromDTO(category);
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO objDTO, @PathVariable Integer id) {
-		Category obj = service.fromDTO(objDTO);
-		obj.setId(id);
+	@ApiOperation("Update an existing category")
+	@RequestMapping(value="/{categoryId}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO category, @PathVariable Integer categoryId) {
+		
+		Category obj = service.fromDTO(category);
+		obj.setId(categoryId);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable Integer id) {
-		service.delete(id);
+	@ApiOperation("Delete category by ID")
+	@RequestMapping(value="/{categoryId}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer categoryId) {
+		
+		service.delete(categoryId);
 		return ResponseEntity.noContent().build();
 	}
 	
