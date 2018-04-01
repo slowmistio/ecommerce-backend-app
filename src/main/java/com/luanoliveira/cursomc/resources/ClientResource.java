@@ -46,7 +46,7 @@ public class ClientResource {
 		return ResponseEntity.ok().body(list) ;
 	}
 
-	@ApiOperation("Get Categories for ID ")
+	@ApiOperation("Get Client for ID ")
 	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Client.class)})
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Client> find(@PathVariable Integer id) {
