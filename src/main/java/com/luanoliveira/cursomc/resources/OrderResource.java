@@ -61,11 +61,11 @@ public class OrderResource {
 	
 	@ApiOperation("Create a new order")
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody Order order) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody Order obj) {
 		
-		Order obj = service.insert(order);
+		Order order = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{orderId}").buildAndExpand(obj.getId()).toUri();
+				.path("/{orderId}").buildAndExpand(order.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	

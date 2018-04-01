@@ -1,5 +1,6 @@
 package com.luanoliveira.cursomc.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,20 +8,39 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.luanoliveira.cursomc.domain.ItemOrder;
 import com.luanoliveira.cursomc.domain.Order;
+import com.luanoliveira.cursomc.domain.PaymentTicket;
+import com.luanoliveira.cursomc.domain.enuns.StatusPayment;
+import com.luanoliveira.cursomc.repositories.ItemOrderRepository;
 import com.luanoliveira.cursomc.repositories.OrderRepository;
+import com.luanoliveira.cursomc.repositories.PaymentRepository;
+import com.luanoliveira.cursomc.repositories.ProductRepository;
 import com.luanoliveira.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class OrderService {
 	
 	@Autowired
-	private OrderRepository repo;
+	private OrderRepository orderRepository;
+	
+	@Autowired
+	private TicketService ticketService;
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
+
+	@Autowired
+	private ItemOrderRepository itemOrderRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
 
 	public Order findById(Integer orderId) {
 		
-		Order obj = repo.findOne(orderId);
+		Order obj = orderRepository.findOne(orderId);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + orderId
 					+ ", Tipo: " + Order.class.getName());
@@ -30,19 +50,35 @@ public class OrderService {
 
 	public List<Order> findAll() {
 		
-		List<Order> obj = repo.findAll();
+		List<Order> obj = orderRepository.findAll();
 		return obj;
 	}
 	
 	public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
+		return orderRepository.findAll(pageRequest);
 	}
 	
+	@Transactional
 	public Order insert(Order obj) {
-		
-		return repo.save(obj);
+		obj.setId(null);
+		obj.setRequestDate(new Date());
+		obj.getPayment().setStatus(StatusPayment.PENDENTE);
+		obj.getPayment().setOrder(obj);
+		if (obj.getPayment() instanceof PaymentTicket ) {
+			PaymentTicket payment = (PaymentTicket) obj.getPayment();
+			ticketService.putPaymentoTicket(payment, obj.getRequestDate());
+		}
+		obj = orderRepository.save(obj);
+		paymentRepository.save(obj.getPayment());
+		for (ItemOrder io : obj.getItens()) {
+			io.setDiscount(0.0);
+			io.setPrice(productRepository.findOne(io.getProduct().getId()).getPrice());
+			io.setOrder(obj);
+		}
+		itemOrderRepository.save(obj.getItens());
+		return obj;
 	}
 	
 }
