@@ -35,7 +35,6 @@ public class SwaggerConfig {
 
 	
 	private static final String SWAGGER_API_VERSION = "1.0.0";
-	private static final String LICENSE_TEXT = "License";
 	private static final String TITLE = "REST Api Documentation";
 	private static final String DESCRIPTION = "RESTFul Api Documentation by Curso MC";
 	
