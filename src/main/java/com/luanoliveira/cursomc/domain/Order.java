@@ -1,8 +1,11 @@
 package com.luanoliveira.cursomc.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -136,5 +139,31 @@ public class Order implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido número: ");
+		builder.append(getId());
+		builder.append(", Data criação: ");
+		builder.append(sdf.format(getRequestDate()));
+		builder.append(", Cliente: ");
+		builder.append(getClient().getName());
+		builder.append(", Situação do pagamento: ");
+		builder.append(getPayment().getStatus().getDescripton());
+		builder.append("\nDetalhes: \n");
+		for(ItemOrder io : getItens()) {
+			builder.append(io.toString());
+		}
+		builder.append("Valor Total: ");
+		builder.append(nf.format(getTotalValue()));
+		return builder.toString();
+	}
+	
+	
 	
 }

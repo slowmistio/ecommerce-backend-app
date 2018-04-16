@@ -14,11 +14,13 @@ import com.luanoliveira.cursomc.domain.ItemOrder;
 import com.luanoliveira.cursomc.domain.Order;
 import com.luanoliveira.cursomc.domain.PaymentTicket;
 import com.luanoliveira.cursomc.domain.enuns.StatusPayment;
+import com.luanoliveira.cursomc.repositories.ClientRepository;
 import com.luanoliveira.cursomc.repositories.ItemOrderRepository;
 import com.luanoliveira.cursomc.repositories.OrderRepository;
 import com.luanoliveira.cursomc.repositories.PaymentRepository;
 import com.luanoliveira.cursomc.repositories.ProductRepository;
 import com.luanoliveira.cursomc.services.exceptions.ObjectNotFoundException;
+
 
 @Service
 public class OrderService {
@@ -38,6 +40,9 @@ public class OrderService {
 	@Autowired
 	private ProductRepository productRepository;
 
+	@Autowired
+	private ClientRepository clientRepository;
+	
 	public Order findById(Integer orderId) {
 		
 		Order obj = orderRepository.findOne(orderId);
@@ -64,6 +69,7 @@ public class OrderService {
 	public Order insert(Order obj) {
 		obj.setId(null);
 		obj.setRequestDate(new Date());
+		obj.setClient(clientRepository.findOne(obj.getClient().getId()));
 		obj.getPayment().setStatus(StatusPayment.PENDENTE);
 		obj.getPayment().setOrder(obj);
 		if (obj.getPayment() instanceof PaymentTicket ) {
@@ -74,10 +80,12 @@ public class OrderService {
 		paymentRepository.save(obj.getPayment());
 		for (ItemOrder io : obj.getItens()) {
 			io.setDiscount(0.0);
-			io.setPrice(productRepository.findOne(io.getProduct().getId()).getPrice());
+			io.setProduct(productRepository.findOne(io.getProduct().getId()));
+			io.setPrice(io.getProduct().getPrice());
 			io.setOrder(obj);
 		}
 		itemOrderRepository.save(obj.getItens());
+		System.out.println(obj);
 		return obj;
 	}
 	
