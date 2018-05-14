@@ -2,7 +2,6 @@ package com.luanoliveira.cursomc.domain;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import javax.persistence.EmbeddedId;

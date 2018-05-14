@@ -14,6 +14,7 @@ import com.luanoliveira.cursomc.domain.ItemOrder;
 import com.luanoliveira.cursomc.domain.Order;
 import com.luanoliveira.cursomc.domain.PaymentTicket;
 import com.luanoliveira.cursomc.domain.enuns.StatusPayment;
+import com.luanoliveira.cursomc.repositories.AddressRepository;
 import com.luanoliveira.cursomc.repositories.ClientRepository;
 import com.luanoliveira.cursomc.repositories.ItemOrderRepository;
 import com.luanoliveira.cursomc.repositories.OrderRepository;
@@ -42,6 +43,9 @@ public class OrderService {
 
 	@Autowired
 	private ClientRepository clientRepository;
+
+	@Autowired
+	private AddressRepository addressRepository;
 	
 	@Autowired 
 	private EmailService emailService;
@@ -70,11 +74,13 @@ public class OrderService {
 	
 	@Transactional
 	public Order insert(Order obj) {
-		obj.setId(null);
+		
+		obj.setId(null); 
 		obj.setRequestDate(new Date());
 		obj.setClient(clientRepository.findOne(obj.getClient().getId()));
 		obj.getPayment().setStatus(StatusPayment.PENDENTE);
 		obj.getPayment().setOrder(obj);
+		obj.setShippingAddress(addressRepository.findOne(obj.getShippingAddress().getId()));
 		if (obj.getPayment() instanceof PaymentTicket ) {
 			PaymentTicket payment = (PaymentTicket) obj.getPayment();
 			ticketService.putPaymentoTicket(payment, obj.getRequestDate());
@@ -88,7 +94,8 @@ public class OrderService {
 			io.setOrder(obj);
 		}
 		itemOrderRepository.save(obj.getItens());
-		emailService.sendOrderConfirmationEmail(obj);
+		emailService.sendOrderConfirmationHtmlEmail(obj);
+		System.out.println(obj.toString());
 		return obj;
 	}
 	

@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Table(name="ORDERS")
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -153,8 +153,16 @@ public class Order implements Serializable {
 		builder.append(sdf.format(getRequestDate()));
 		builder.append(", Cliente: ");
 		builder.append(getClient().getName());
-		builder.append(", Situação do pagamento: ");
-		builder.append(getPayment().getStatus().getDescripton());
+		
+		builder.append("\nEndereço de Entrega: \n");
+		builder.append("\nRua: " + getShippingAddress().getAddress() + "," + getShippingAddress().getNumber());
+		builder.append("\nBairro:" + getShippingAddress().getDistrict());
+		builder.append("\nCidade:" + getShippingAddress().getCity().getName());
+		builder.append("\nEstado:" + getShippingAddress().getCity().getState().getName());
+		builder.append("\nCEP:" + getShippingAddress().getZipCode());
+
+		builder.append("\nSituação do pagamento: ");
+		builder.append(getPayment().getStatus().getDescription());
 		builder.append("\nDetalhes: \n");
 		for(ItemOrder io : getItens()) {
 			builder.append(io.toString());

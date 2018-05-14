@@ -7,19 +7,19 @@ public enum StatusPayment {
 	CANCELADO(3, "Cancelado");
 	
 	private int cod;
-	private String descripton;
+	private String description;
 	
-	private StatusPayment(int cod, String descripton) {
+	private StatusPayment(int cod, String description) {
 		this.cod = cod;
-		this.descripton = descripton;
+		this.description = description;
 	}
 	
 	public int getCod() {
 		return this.cod;
 	}
 	
-	public String getDescripton() {
-		return this.descripton;
+	public String getDescription() {
+		return this.description;
 	}
 	
 	public static StatusPayment toEnum(Integer cod) {
