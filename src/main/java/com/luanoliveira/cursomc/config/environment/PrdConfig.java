@@ -1,4 +1,4 @@
-package com.luanoliveira.cursomc.config;
+package com.luanoliveira.cursomc.config.environment;
 
 import java.text.ParseException;
 

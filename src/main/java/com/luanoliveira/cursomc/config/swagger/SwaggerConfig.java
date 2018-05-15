@@ -1,4 +1,4 @@
-package com.luanoliveira.cursomc.config;
+package com.luanoliveira.cursomc.config.swagger;
 
 import java.util.Arrays;
 import java.util.Collections;
