@@ -1,4 +1,4 @@
-package com.luanoliveira.cursomc.services;
+	package com.luanoliveira.cursomc.services;
 
 import java.util.Date;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.luanoliveira.cursomc.domain.Client;
 import com.luanoliveira.cursomc.domain.ItemOrder;
 import com.luanoliveira.cursomc.domain.Order;
 import com.luanoliveira.cursomc.domain.PaymentTicket;
@@ -20,6 +21,8 @@ import com.luanoliveira.cursomc.repositories.ItemOrderRepository;
 import com.luanoliveira.cursomc.repositories.OrderRepository;
 import com.luanoliveira.cursomc.repositories.PaymentRepository;
 import com.luanoliveira.cursomc.repositories.ProductRepository;
+import com.luanoliveira.cursomc.security.UserSS;
+import com.luanoliveira.cursomc.services.exceptions.AuthorizationException;
 import com.luanoliveira.cursomc.services.exceptions.ObjectNotFoundException;
 
 
@@ -61,15 +64,20 @@ public class OrderService {
 	}
 
 	public List<Order> findAll() {
-		
 		List<Order> obj = orderRepository.findAll();
 		return obj;
 	}
 	
 	public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+		UserSS user = UserService.authenticated();
+		if (user == null){
+			throw new AuthorizationException("Acesso Negado");
+		}
 		
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return orderRepository.findAll(pageRequest);
+		Client client = clientRepository.findOne(user.getId());
+		
+		return orderRepository.findByClient(client, pageRequest);
 	}
 	
 	@Transactional

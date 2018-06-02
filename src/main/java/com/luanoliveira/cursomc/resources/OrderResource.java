@@ -31,15 +31,6 @@ public class OrderResource {
 	@Autowired
 	private OrderService service;
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@ApiOperation("Find all orders")
-	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<?> findAll() {
-		
-		List<Order> list = service.findAll();
-		return ResponseEntity.ok().body(list) ;
-	}
-
 	@ApiOperation("Find order by ID")
 	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Order.class)})
 	@RequestMapping(value="/{orderId}", method = RequestMethod.GET)
@@ -49,14 +40,13 @@ public class OrderResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	@ApiOperation("Find orders by pagination")
-	@RequestMapping(value="/pagination", method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<Page<Order>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="order", defaultValue="name") String orderBy, 
-			@RequestParam(value="dir", defaultValue="ASC") String direction) {
+			@RequestParam(value="order", defaultValue="requestDate") String orderBy, 
+			@RequestParam(value="dir", defaultValue="DESC") String direction) {
 		
 		Page<Order> list = service.findPage(page, linesPerPage, orderBy, direction);
 		return ResponseEntity.ok().body(list) ;
