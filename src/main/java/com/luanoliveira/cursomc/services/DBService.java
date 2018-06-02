@@ -19,6 +19,7 @@ import com.luanoliveira.cursomc.domain.PaymentCard;
 import com.luanoliveira.cursomc.domain.PaymentTicket;
 import com.luanoliveira.cursomc.domain.Product;
 import com.luanoliveira.cursomc.domain.State;
+import com.luanoliveira.cursomc.domain.enuns.Profile;
 import com.luanoliveira.cursomc.domain.enuns.StatusPayment;
 import com.luanoliveira.cursomc.domain.enuns.TypeAddress;
 import com.luanoliveira.cursomc.domain.enuns.TypeClient;
@@ -127,15 +128,19 @@ public class DBService {
 		Client cli1 = new Client(null, "Luan Oliveira", "luannn@gmail.com", "05049043964", TypeClient.PESSOAFISICA, bCrypt.encode("123") );
 		cli1.getPhones().addAll(Arrays.asList("47996665106"));
 
-		Address e1 = new Address(null, TypeAddress.RESIDENCIAL, "Rua Herman Lange", "31", "ap2", "Costa e Silva",
-				"89219260", cid2, cli1);
-		Address e2 = new Address(null, TypeAddress.COMERCIAL, "Rua Otto Boehn", "442", "", "Atiradores", "89222111",
-				cid2, cli1);
+		Client cli2 = new Client(null, "Charlise Aguilera", "charlise.ag@gmail.com", "95498924097", TypeClient.PESSOAFISICA, bCrypt.encode("123") );
+		cli2.getPhones().addAll(Arrays.asList("47996665106", "4734456669"));
+		cli2.addProfile(Profile.ADMIN);
+		
+		Address e1 = new Address(null, TypeAddress.RESIDENCIAL, "Rua Herman Lange", "31", "ap2", "Costa e Silva", "89219260", cid2, cli1);
+		Address e2 = new Address(null, TypeAddress.COMERCIAL, "Rua Otto Boehn", "442", "", "Atiradores", "89222111", cid2, cli1);
+		Address e3 = new Address(null, TypeAddress.RESIDENCIAL, "Rua Adalberto Schamlz", "544", "", "Glória", "89219220", cid2, cli2);
 
 		cli1.getAddresses().addAll(Arrays.asList(e1, e2));
+		cli2.getAddresses().addAll(Arrays.asList(e3));
 
-		clientRepository.save(Arrays.asList(cli1));
-		addressRepository.save(Arrays.asList(e1, e2));
+		clientRepository.save(Arrays.asList(cli1, cli2));
+		addressRepository.save(Arrays.asList(e1, e2, e3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
