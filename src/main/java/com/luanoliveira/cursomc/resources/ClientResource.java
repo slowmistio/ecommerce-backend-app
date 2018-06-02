@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ public class ClientResource {
 	@Autowired
 	private ClientService service;
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@ApiOperation("Find all clients")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
@@ -51,6 +53,7 @@ public class ClientResource {
 		return ResponseEntity.ok().body(obj) ;
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@ApiOperation("Find clients by pagination")
 	@RequestMapping(value="/pagination", method=RequestMethod.GET)
 	public ResponseEntity<Page<Client>> findPage(
@@ -84,6 +87,7 @@ public class ClientResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@ApiOperation("Delete client by ID")
 	@RequestMapping(value="/{clientId}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer clientId) {
