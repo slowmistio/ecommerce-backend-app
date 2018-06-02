@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,10 @@ import com.luanoliveira.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClientService {
+	
+
+	@Autowired
+	private BCryptPasswordEncoder bCrypt;
 	
 	@Autowired
 	private ClientRepository repo;
@@ -51,11 +56,11 @@ public class ClientService {
 	}
 	
 	public Client fromDTO(ClientDTO objDTO) {
-		return new Client(objDTO.getId(), objDTO.getName(), objDTO.getEmail(), null, null);
+		return new Client(objDTO.getId(), objDTO.getName(), objDTO.getEmail(), null, null, null);
 	}	
 	
 	public Client fromDTO(ClientNewDTO objDTO) {
-		Client cli = new Client(null, objDTO.getName(), objDTO.getEmail(), objDTO.getCpfOrCnpj(), TypeClient.toEnum(objDTO.getTypeClient()));
+		Client cli = new Client(null, objDTO.getName(), objDTO.getEmail(), objDTO.getCpfOrCnpj(), TypeClient.toEnum(objDTO.getTypeClient()), bCrypt.encode(objDTO.getPassword()));
 		City cid = new City(objDTO.getCityId(), null, null);
 		Address end = new Address(null, TypeAddress.toEnum(objDTO.getTypeAdress()), objDTO.getAddress(), objDTO.getNumber(), objDTO.getComplement(), objDTO.getDistrict(), objDTO.getZipCode(), cid, cli);
 		cli.getAddresses().add(end);

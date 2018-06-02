@@ -4,34 +4,69 @@
 <title th:remove="all">Order Confirmation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+<style>
+body {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+#order {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#order td, #order th {
+    padding: 15px;
+}
+
+#order tfoot{
+	background-color: #f2f2f2;
+}
+
+#order th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
 <body>
 	<div>
-		<h1>Pedido número: <span th:text="${order.id}"> </span></h1>
-		<p>Data: <span th:text="${#dates.format(order.requestDate, 'dd/MM/yyyy hh:mm')}"></span></p>
-		<p>Cliente: <span th:text="${order.client.name}"></span></p>
-		<p>Situação do pagamento: <span th:text="${order.payment.status.description}"></span></p>
-		<h3>Endereço de Entrega:</h3>
-		<p>Rua:<span th:text="${order.shippingAddress.address}"></span>, <span th:text="${order.shippingAddress.number}"></span></p>
-		<p>Complemento: <span th:text="${order.shippingAddress.complement}"></span></p>
-		<p>Bairro: <span th:text="${order.shippingAddress.district}"></span></p>
-		<p>Cidade/Estado: <span th:text="${order.shippingAddress.city.name}"></span>/<span th:text="${order.shippingAddress.city.state.name}"></span></p>
-		<p>CEP: <span th:text="${order.shippingAddress.zipCode}"></span></p>
-		<h3>Detalhes do pedido:</h3>
-		<table border="1">
-			<tr>
+		<b>Olá, <span th:text="${order.client.name}">name</span>!</b>
+		<p>Temos uma novidade para você!</p>
+		<p>O seu pedido <b><span th:text="${order.id}">id</span></b> 
+		   foi efetivado no dia <span th:text="${#dates.format(order.requestDate, 'dd/MM/yyyy hh:mm')}">dd/MM/yyyy hh:mm</span>
+		</p>
+		<p>A situação do pagamento está como <span th:text="${order.payment.status.description}">description</span>.</p>
+		
+		<h3>Detalhes do pedido</h3>
+		<table  id="order">
+			<thead>
 				<th>Produto</th>
 				<th>Quantidade</th>
 				<th>Preço unitário</th>
 				<th>Subtotal</th>
-			</tr>
+			</thead>
 			<tr th:each="item : ${order.itens}">
 				<td th:text="${item.product.name}">nome</td>
-				<td th:text="${item.quantity}">quantidade</td>
-				<td th:text="${#numbers.formatDecimal(item.price, 0, 'POINT', 2, 'COMMA')}">preco</td>
-				<td th:text="${#numbers.formatDecimal(item.subTotal, 0, 'POINT', 2, 'COMMA')}">subTotal</td>
+				<td th:text="${item.quantity}">0</td>
+				<td th:text="${#numbers.formatDecimal(item.price, 0, 'POINT', 2, 'COMMA')}">0.00</td>
+				<td th:text="${#numbers.formatDecimal(item.subTotal, 0, 'POINT', 2, 'COMMA')}">0.00</td>
 			</tr>
+			<tfoot>
+				<td colspan="3" ><b>Valor total</b></td>
+				<td><span th:text="${#numbers.formatDecimal(order.totalValue, 0, 'POINT', 2, 'COMMA')}">0.00</span></td>
+			</tfoot>			
 		</table>
-		<p>Valor total: <span th:text="${#numbers.formatDecimal(order.totalValue, 0, 'POINT', 2, 'COMMA')}"></span></p>
+		
+		<h3>Endereço de Entrega</h3>
+		<p>Rua: <span th:text="${order.shippingAddress.address}">address</span>, <span th:text="${order.shippingAddress.number}">number</span></p>
+		<p>Complemento: <span th:text="${order.shippingAddress.complement}">complement</span></p>
+		<p>Bairro: <span th:text="${order.shippingAddress.district}">district</span></p>
+		<p>Cidade: <span th:text="${order.shippingAddress.city.name}">city.name</span></p>
+		<p>Estado: <span th:text="${order.shippingAddress.city.state.name}">state.name</span></p>
+		<p>CEP: <span th:text="${order.shippingAddress.zipCode}">zipCode</span></p>
+		
+		
 	</div>
 </body>
 </html>
