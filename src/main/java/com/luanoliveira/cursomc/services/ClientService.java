@@ -14,12 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.luanoliveira.cursomc.domain.Address;
 import com.luanoliveira.cursomc.domain.City;
 import com.luanoliveira.cursomc.domain.Client;
+import com.luanoliveira.cursomc.domain.enuns.Profile;
 import com.luanoliveira.cursomc.domain.enuns.TypeAddress;
 import com.luanoliveira.cursomc.domain.enuns.TypeClient;
 import com.luanoliveira.cursomc.dto.ClientDTO;
 import com.luanoliveira.cursomc.dto.ClientNewDTO;
 import com.luanoliveira.cursomc.repositories.AddressRepository;
 import com.luanoliveira.cursomc.repositories.ClientRepository;
+import com.luanoliveira.cursomc.security.UserSS;
+import com.luanoliveira.cursomc.services.exceptions.AuthorizationException;
 import com.luanoliveira.cursomc.services.exceptions.DataIntegrityException;
 import com.luanoliveira.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -37,12 +40,18 @@ public class ClientService {
 	private AddressRepository addressRepository;
 	
 	public Client findById(Integer clientId) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Profile.ADMIN) && !clientId.equals(user.getId())){
+			throw new AuthorizationException("Acesso Negado");
+		}
+		
 		Client obj = repo.findOne(clientId);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + clientId
 					+ ", Tipo: " + Client.class.getName());
 		}
-		return obj;
+		return obj; 
 	}
 
 	public List<Client> findAll() {
