@@ -1,6 +1,13 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
+
+### Configuracoes ###
+src/main/resources/application.properties
+src/main/resources/application-dev.properties
+src/main/resources/application-prd.properties
+src/main/resources/application-tst.properties
+
 ### STS ###
 .apt_generated
 .classpath
