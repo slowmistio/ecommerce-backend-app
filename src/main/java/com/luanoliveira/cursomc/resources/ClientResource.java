@@ -22,21 +22,14 @@ import com.luanoliveira.cursomc.dto.ClientDTO;
 import com.luanoliveira.cursomc.dto.ClientNewDTO;
 import com.luanoliveira.cursomc.services.ClientService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-
-@Api(value = "client")
 @RestController
-@RequestMapping(value="/api/clients")
+@RequestMapping(value="/clients")
 public class ClientResource {
 	
 	@Autowired
 	private ClientService service;
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@ApiOperation("Find all clients")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		
@@ -44,8 +37,6 @@ public class ClientResource {
 		return ResponseEntity.ok().body(list) ;
 	}
 
-	@ApiOperation("Find client by ID")
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Client.class)})
 	@RequestMapping(value="/{clientId}", method = RequestMethod.GET)
 	public ResponseEntity<Client> findById(@PathVariable Integer clientId) {
 		
@@ -54,7 +45,6 @@ public class ClientResource {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@ApiOperation("Find clients by pagination")
 	@RequestMapping(value="/pagination", method=RequestMethod.GET)
 	public ResponseEntity<Page<Client>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
@@ -66,7 +56,6 @@ public class ClientResource {
 		return ResponseEntity.ok().body(list) ;
 	}	
 	
-	@ApiOperation("Create a new client")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClientNewDTO client) {
 		
@@ -77,7 +66,6 @@ public class ClientResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@ApiOperation("Update an existing client")
 	@RequestMapping(value="/{clientId}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody ClientDTO client, @PathVariable Integer clientId) {
 		
@@ -88,7 +76,6 @@ public class ClientResource {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@ApiOperation("Delete client by ID")
 	@RequestMapping(value="/{clientId}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer clientId) {
 		

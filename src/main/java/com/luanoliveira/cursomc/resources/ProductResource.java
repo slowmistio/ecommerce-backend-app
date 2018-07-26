@@ -16,18 +16,13 @@ import com.luanoliveira.cursomc.dto.ProductDTO;
 import com.luanoliveira.cursomc.resources.utils.URL;
 import com.luanoliveira.cursomc.services.ProductService;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-
 @RestController
-@RequestMapping(value="/api/products")
+@RequestMapping(value="/products")
 public class ProductResource {
 	
 	@Autowired
 	private ProductService service;
 	
-	@ApiOperation("Find all product")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		
@@ -35,8 +30,6 @@ public class ProductResource {
 		return ResponseEntity.ok().body(list) ;
 	}
 
-	@ApiOperation("Find product by ID")
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Product.class)})
 	@RequestMapping(value="/{productId}", method = RequestMethod.GET)
 	public ResponseEntity<Product> findById(@PathVariable Integer productId) {
 		
@@ -44,7 +37,6 @@ public class ProductResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@ApiOperation("Find product by categories")
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public ResponseEntity<Page<ProductDTO>> findByCategories(
 			@RequestParam(value="name", defaultValue="") String name,

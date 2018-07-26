@@ -34,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JWTUtil jwtUtil;
 	
-	
 	@Autowired
 	private Environment env;
 	
@@ -43,13 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_GET = {
-			"/api/products/**",
-			"/api/categories/**"
+			"/products/**",
+			"/categories/**"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_POST = {
-			"/api/clients/**",
-			"/api/auth/forgot/**"
+			"/clients/**",
+			"/login",
+			"/auth/forgot/**"
 	};
 	
 	@Override
@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 		
 		http.cors().and().csrf().disable();
+		
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()

@@ -8,19 +8,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.luanoliveira.cursomc.services.S3Service;
 
 @SpringBootApplication
-public class InitialApp implements CommandLineRunner {
+public class App implements CommandLineRunner {
 
 	@Autowired
 	private S3Service s3service;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(InitialApp.class, args);
+		SpringApplication.run(App.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
 		s3service.uploadFile("/home/hunter/Imagens/teste.jpeg");
-		
 	}
 	
 	

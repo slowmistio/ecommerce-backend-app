@@ -13,16 +13,16 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JWTUtil {
 
 	@Value("${jwt.secret}")
-	private String secret;
+	private String SECRET;
 
 	@Value("${jwt.expiration}")
-	private Long expiration;
+	private Long EXPIRATION;
 	
-	public String generateToken(String email) {
+	public String generateToken(String username) {
 		return Jwts.builder()
-				.setSubject(email)
-				.setExpiration(new Date(System.currentTimeMillis() + expiration))
-				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
+				.setSubject(username)
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+				.signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
 				.compact();
 	}
 
@@ -41,7 +41,7 @@ public class JWTUtil {
 	
 	private Claims getClaims(String token) {
 		try {
-			return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
+			return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
 			return null;
 		}

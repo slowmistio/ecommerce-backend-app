@@ -3,10 +3,10 @@ target/
 
 
 ### Configuracoes ###
-src/main/resources/application.properties
-src/main/resources/application-dev.properties
-src/main/resources/application-prd.properties
-src/main/resources/application-tst.properties
+src/main/resources/bkp/application.properties
+src/main/resources/bkp/application-dev.properties
+src/main/resources/bkp/application-prd.properties
+src/main/resources/bkp/application-tst.properties
 
 ### STS ###
 .apt_generated

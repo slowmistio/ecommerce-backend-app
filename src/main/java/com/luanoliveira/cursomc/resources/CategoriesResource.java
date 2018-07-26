@@ -22,18 +22,13 @@ import com.luanoliveira.cursomc.domain.Category;
 import com.luanoliveira.cursomc.dto.CategoryDTO;
 import com.luanoliveira.cursomc.services.CategoryService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-@Api(value = "categories")
 @RestController
-@RequestMapping(value="/api/categories")
+@RequestMapping(value="/categories")
 public class CategoriesResource {
 	
 	@Autowired
 	private CategoryService service;
 
-	@ApiOperation("Find all categories")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<CategoryDTO>> findAll() {
 		
@@ -42,7 +37,6 @@ public class CategoriesResource {
 		return ResponseEntity.ok().body(listDTO) ;
 	}
 	
-	@ApiOperation("Find category by ID ")
 	@RequestMapping(value="/{categoryId}", method=RequestMethod.GET)
 	public ResponseEntity<Category> find(@PathVariable Integer categoryId) {
 		
@@ -50,7 +44,6 @@ public class CategoriesResource {
 		return ResponseEntity.ok().body(obj) ;
 	}
 	
-	@ApiOperation("Find categories by pagination")
 	@RequestMapping(value="/pagination", method=RequestMethod.GET)
 	public ResponseEntity<Page<CategoryDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
@@ -64,7 +57,6 @@ public class CategoriesResource {
 	}	
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@ApiOperation("Create a new category")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO category) {
 		
@@ -75,7 +67,6 @@ public class CategoriesResource {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@ApiOperation("Update an existing category")
 	@RequestMapping(value="/{categoryId}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO category, @PathVariable Integer categoryId) {
 		
@@ -86,7 +77,6 @@ public class CategoriesResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@ApiOperation("Delete category by ID")
 	@RequestMapping(value="/{categoryId}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer categoryId) {
 		

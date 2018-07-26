@@ -17,7 +17,7 @@ import com.luanoliveira.cursomc.services.AuthService;
 import com.luanoliveira.cursomc.services.UserService;
 
 @RestController
-@RequestMapping(value="/api/auth")
+@RequestMapping(value="/auth")
 public class AuthResource {
 	
 	@Autowired
