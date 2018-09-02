@@ -19,7 +19,7 @@ public class App implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		s3service.uploadFile("/home/hunter/Imagens/teste.jpeg");
+		//s3service.uploadFile("/home/hunter/Imagens/teste.jpeg");
 	}
 	
 	
