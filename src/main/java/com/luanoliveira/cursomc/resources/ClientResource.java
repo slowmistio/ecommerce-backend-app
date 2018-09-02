@@ -44,6 +44,13 @@ public class ClientResource {
 		Client obj = service.findById(clientId);
 		return ResponseEntity.ok().body(obj) ;
 	}
+
+	@RequestMapping(value="/email", method = RequestMethod.GET)
+	public ResponseEntity<Client> findById(@RequestParam(value="value") String email) {
+		
+		Client obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj) ;
+	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/pagination", method=RequestMethod.GET)

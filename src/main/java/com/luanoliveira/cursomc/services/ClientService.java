@@ -70,6 +70,21 @@ public class ClientService {
 		return obj; 
 	}
 
+	public Client findByEmail(String email) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Profile.ADMIN) && !email.equals(user.getUsername())){
+			throw new AuthorizationException("Acesso Negado");
+		}
+		
+		Client obj = repo.findByEmail(email);
+		if(obj == null) {
+			throw new ObjectNotFoundException("Objeto não encontrado! Email: " + email + ", Tipo: " + Client.class.getName());
+		}
+		return obj;
+		
+	}
+	
 	public List<Client> findAll() {
 		List<Client> obj = repo.findAll();
 		return obj;
