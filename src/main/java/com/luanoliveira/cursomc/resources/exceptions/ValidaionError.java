@@ -9,8 +9,8 @@ public class ValidaionError extends StandardError implements Serializable {
 	
 	private List<FieldMessage> errors = new ArrayList<>();
 	
-	public ValidaionError(Integer status, String msg, Long timeStamp) {
-		super(status, msg, timeStamp);
+	public ValidaionError(Long timestamp, Integer status, String error, String messsage, String path) {
+		super(timestamp, status, error, messsage, path);
 	}
 
 	public List<FieldMessage> getErrors() {
