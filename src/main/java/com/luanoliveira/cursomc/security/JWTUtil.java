@@ -12,8 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JWTUtil {
 
-	@Value("${jwt.secret}")
-	private String SECRET;
+	private String SECRET = System.getenv("JWT_SECRET");
 
 	@Value("${jwt.expiration}")
 	private Long EXPIRATION;

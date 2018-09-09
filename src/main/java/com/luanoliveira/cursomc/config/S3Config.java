@@ -12,12 +12,6 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 @Configuration
 public class S3Config {
-
-	@Value("${aws.access_key_id}")
-	private String awsId;
-	
-	@Value("${aws.secret_access_key}")
-	private String awsKey;
 	
 	@Value("${s3.region}")
 	private String region;
@@ -25,7 +19,10 @@ public class S3Config {
 	@Bean
 	public AmazonS3 s3client() {
 		
-		BasicAWSCredentials awsCred = new BasicAWSCredentials(awsId, awsKey);
+		String AWS_KEY = System.getenv("AWS_ACCESS_KEY");
+		String AWS_SECRET = System.getenv("AWS_SECRET_ACCESS_KEY");
+		
+		BasicAWSCredentials awsCred = new BasicAWSCredentials(AWS_KEY, AWS_SECRET);
 		AmazonS3 s3client = AmazonS3ClientBuilder
 				.standard()
 				.withRegion(Regions.fromName(region))
